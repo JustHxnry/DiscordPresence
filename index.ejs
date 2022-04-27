@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit RP</title>
+</head>
+<body>
+    <form action="/" method="post">
+        <input <% if(data.appId) { %> value="<%= data.appId %>" <% } %> required type="password" name="appId" id="appId" placeholder="Enter your app's ID"><br>
+        <input <% if(data.appSecret) { %> value="<%= data.appSecret %>" <% } %> required type="password" name="appSecret" id="appSecret" placeholder="Enter your app's secret"><br>
+        <input <% if(data.rp.details) { %> value="<%= data.rp.details %>" <% } %> required type="text" name="details" id="details" placeholder="This is the upper text"><br>
+        <input <% if(data.rp.state) { %> value="<%= data.rp.state %>" <% } %> required type="text" name="state" id="state" placeholder="This is the footer text"><br>
+        <input <% if(data.rp.timestamps.start) { %> value="<%= data.rp.timestamps.start %>" <% } %> type="text" name="timestamp" id="timestamp" placeholder="Enter timestamp"> <span>* Leave empty for no timestamp, write <i>ExactTime</i> for displaying clock or enter custom timestamp</span><br>
+        <input <% if(data.rp.assets.large_image) { %> value="<%= data.rp.assets.large_image %>" <% } %> required type="text" name="largeImg" id="largeImg" placeholder="Enter large image's name"><br>
+        <input <% if(data.rp.assets.large_text) { %> value="<%= data.rp.assets.large_text %>" <% } %> required type="text" name="largeTxt" id="largeTxt" placeholder="Enter large image's hover text"><br>
+        <input <% if(data.rp.assets.small_image) { %> value="<%= data.rp.assets.small_image %>" <% } %> required type="text" name="smallImg" id="smallTxt" placeholder="Enter small image's name'"><br>
+        <input <% if(data.rp.assets.small_text) { %> value="<%= data.rp.assets.small_text %>" <% } %> required type="text" name="smallTxt" id="smallTxt" placeholder="Enter small image's hover text"><br>
+        <input type="text" name="button1Label" id="button1Label" placeholder="Enter 1st button's label"> <span>* Leave empty for no button</span><br>
+        <input type="url" name="button1Url" id="button1Url" placeholder="Enter 1st button's URL"> <span>* Leave empty if Label is</span><br>
+        <input type="text" name="button2Label" id="button2Label" placeholder="Enter 2nd button's label"> <span>* Leave empty for no button</span><br>
+        <input type="url" name="button2Url" id="button2Url" placeholder="Enter 2nd button's URL"> <span>* Leave empty if Label is</span><br><br>
+
+        <input type="submit" value="Edit">
+    </form>
+</body>
+</html>

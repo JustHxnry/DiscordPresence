@@ -1,44 +1,69 @@
-try {
-const RPC = require('discord-rpc');
-const client = new RPC.Client({
-    transport: 'ipc'
-});
-const dotenv = require("dotenv")
+const express = require('express');
+const server = express();
+const fs = require('fs');
+const bodyParser = require('body-parser');
 
-dotenv.config()
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({  extended: false }));
+server.set('view engine', 'ejs');
+server.set('views', './');
 
-var d1 = new Date();
-var d = d1.setHours(0,0,0,0); // next midnight
+server.get('/', async (req, res) => {
 
-client.on('ready', () => {
-    client.request('SET_ACTIVITY', {
-        pid: process.pid,
-        activity: {
-            details: process.env.DETAILS,
-            state: process.env.STATE,
-            timestamps: {
-                start: d
-            },
-            assets: {
-                large_image: process.env.LARGEIMG,
-                large_text: process.env.LARGETXT,
-                small_image: process.env.SMALLIMG,
-                small_text: process.env.SMALLTXT
-            },
-            buttons: [
-                { label: process.env.FIRSTBUTTONTEXT, url: process.env.FIRSTBUTTONURL },
-                { label: process.env.SECONDBUTTONTEXT, url: process.env.SECONDBUTTONURL }
-            ]
-        }
-    });
+    res.render('index', { data: JSON.parse(fs.readFileSync(__dirname + "/settings.json")) });
+
 });
 
-console.log("Starting . . . . . . ");
+server.post('/', async (req, res) => {
 
-client.login({
-    clientId: process.env.ID, //Change to your app ID
-    clientSecret: process.env.SECRET //Secret can be found at O2Auth bookmark
-})
-} catch(error) {
-   console.log(error);
-}
+    let { details, state, timestamp, largeImg, largeTxt, smallImg, smallTxt, button1Label, button1Url, button2Label, button2Url, appId, appSecret } = req.body;
+
+    ndata = {
+        details,
+        state,
+        assets: {
+            large_image: largeImg,
+            large_text: largeTxt,
+            small_image: smallImg,
+            small_text: smallTxt
+        },
+        timestamps: {}
+    }
+
+    if (button1Label && button1Url) {
+
+        let temp = ndata.buttons;
+
+        if (!temp) ndata.buttons = [];
+
+        console.log(ndata);
+        
+        ndata.buttons.push({ label: button1Label, url: button1Url });
+    }
+    
+    if (button2Label && button2Url) {
+        
+        let temp = ndata.buttons;
+
+        if (!temp) ndata.buttons = [];
+
+        ndata.buttons.push({ label: button2Label, url: button2Url });
+    }
+    
+    if (timestamp === "ExactTime") ndata.timestamps.start = "ExactTime";
+    
+    if (timestamp) ndata.timestamps.start = timestamp;
+    
+    data = {
+        rp: ndata,
+        appId,
+        appSecret
+    }
+
+    fs.writeFileSync(__dirname + "/settings.json", JSON.stringify(data));
+
+    res.sendStatus(200);
+
+});
+
+server.listen(3000, () => console.log("Set up on localhost:3000"));

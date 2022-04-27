@@ -1,16 +1,21 @@
 {
   "name": "customrp",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "description": "simple custom rp with buttons",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "edit": "node index",
+    "start": "node client"
   },
   "author": "hxnry",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.0",
     "discord": "^0.8.2",
     "discord-rpc": "^4.0.1",
-    "dotenv": "^10.0.0"
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.7",
+    "express": "^4.18.0",
+    "fs": "^0.0.1-security"
   }
 }
